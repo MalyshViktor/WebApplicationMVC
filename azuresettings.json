@@ -1,0 +1,19 @@
+{
+  "BingSearch": {
+    "Endpoint": "https://api.bing.microsoft.com",
+    "AllSearch": "v7.0/search",
+    "Key": "406c92e1428a424184c407f4ee674f58"
+  },
+  "Translator": {
+    "Endpoint": "https://api.cognitive.microsofttranslator.com/",
+    "Service": "/translate?api-version=3.0&",
+    "Region": "global",
+    "Key": "f21c643c41c34721b127470b90c4c56b"
+  },
+  "CosmosDB": {
+    "Endpoint": "https://webappscosmosdb.documents.azure.com:443/",
+    "Key": "RERgm627gZTwNP83dft0xP9vwuj2kAf9K2qdWbmDT0exfJnYCAuddadKEH7eviCRn3In4cW0A7nDIG87pv9wnQ==",
+    "DatabaseId": "ToDoList",
+    "ContainerId": "Items"
+  }
+}

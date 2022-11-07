@@ -1,0 +1,87 @@
+﻿@{
+    ViewData["Title"] = "Privacy Policy";
+}
+<h1>@ViewData["Title"]</h1>
+
+<p>Данные из сессии: @ViewData["fromSession"]</p>
+<h2>CORP</h2>
+<p>
+    Cross-Origin Resource Policy - Ограничение междоменного домена.
+    По умолчанию обмен данными (ресурсами) между участниками с разным расположением (Origin, Domain) ограничиваются.
+    Это означвет, что условный фронт-энд с адресом https://site.com будет ограничен в обмене данными с бэкендом на адресах:
+    https://back.site.com
+    https://site.com
+    https://site.com:8080
+</p>
+<h2>CORS</h2>
+<p>
+    Cross-Origin Resource Sharing - реализация междоменного обмена данными(ресурсами).<br/>
+    Согласно договоренности, междоменные запросы могут передаваться только методом Get, содержать только текстовое 
+    тело(запрещен заголовок Content-Type, как и большинство других заголовков).<br/>
+    Разрешение на обращение с другого домена задается заголовком<br/>
+    Access-Control-Allow-Origin<br/>
+    Например, Access-Control-Allow-Origin: https://site.com <br/>
+    Или Access-Control-Allow-Origin: * - для всех доменов<br/>
+    В ASP включается дерективой .AllowAnyOrigin() либо
+    .SetIsOriginAllowed(origin=>true)
+    <br/>
+    Запросы другими методами (не GET и POST) имеют особенности:<br/>
+    -предварительно посылается запрос методом OPTIONS
+    по его рез-там проводится анализ CORS -заголовков на разрешение методов
+    Access-Control-Request-Method: GET, POST PUT, DELETE<br/>
+    Если метод есть среди разрешенных (и разрешен домен), то
+    проводится основной запрос указанным методом.
+    <br/>
+    Аналогичное поведение происходит при наличии в запросе неразрешенных
+    заголовков. Наиболее популярный из них - Access-Control-Request-Header
+    <br/>
+    В таком случае также посылается OPTIONS запрос и ожидается в ответе
+    <br/>
+    Access-Control-Request-Headers:
+</p>
+Д.З. Добавить кнопки PUT и PATCH
+Реализовать для них обработчики нажатия а также серверные методы в контроллере для них
+<br/>
+<input type="button" value="Get JSON" onclick="getJson()"/>
+<input type="button" value="Post JSON" onclick="postJson()"/>
+<input type="button" value="Delete JSON" onclick="deleteJson()"/>
+<input type="button" value="Put JSON" onclick="putJson()"/>
+<input type="button" value="Patch JSON" onclick="patchJson()"/>
+<p id="out"></p>
+<script>
+    function getJson(){
+        fetch("https://mywebappmvcazure.azurewebsites.net/api/feedback")
+        .then(r=>r.text())
+        .then(t=> out.innerText = t);
+    }
+
+    function postJson(){
+        //const url = "api/feedback";
+        const url = "https://mywebappmvcazure.azurewebsites.net/api/feedback";
+        fetch(url, {method: "POST",
+        headers: {"Content-Type": "application/json"}, body: JSON.stringify({id: "7cbffcb8-ac56-4987-9932-df20e0ef6206"})
+        .then(r=>r.text())
+        .then(t=> out.innerText = t);
+    }
+
+    function deleteJson(){
+        fetch("https://mywebappmvcazure.azurewebsites.net/api/feedback", {method:"DELETE"})
+        .then(r=>r.text())
+        .then(t=> out.innerText = t);
+    }
+
+    function putJson(){
+        const url = "https://mywebappmvcazure.azurewebsites.net/api/feedback";
+        fetch(url, {method: "PUT",
+        headers: {"Content-Type": "application/json"}, body: JSON.stringify({id:"7cbffcb8-ac56-4987-9932-df20e0ef6206"})
+        .then(r=>r.text())
+        .then(t=> out.innerText = t);
+    }
+
+    function patchJson(){
+        fetch("https://mywebappmvcazure.azurewebsites.net/api/feedback", {method:"PATCH"})
+        .then(r=>r.text())
+        .then(t=> out.innerText = t);
+    }
+
+</script>

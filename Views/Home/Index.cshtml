@@ -1,0 +1,49 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+    var Urls = ViewData["Urls"] as List<String>;
+    var Feedbacks = ViewData["Feedbacks"] as List<Feedback>;
+}
+
+<div class="text-center">
+    <h1 class="display-4">Добро пожаловать!</h1>
+    <p>Сайт скоро будет тут</p>
+
+    <form action="/Home/Index" method="post">
+    
+        Author: <input name="Author" required/><br/>
+        Comment: <input name="Text" required/><br/>
+        Vote: 
+        <input name="Vote" value="1" type="radio" id="vote1"/>
+        <label for="vote1">Database</label>
+        <input name="Vote" value="2" type="radio" id="vote2"/>
+        <label for="vote2">File</label><br/>
+        <input type="submit" value="Feedback"/>
+    </form>
+    <br/>
+    <table class ="feedback-table" border="1" cellspacing="0" cellpadding="7">
+        <thead>
+            <tr>
+                <th>За базы данных</th>
+                <th>За файлы</th>
+                <th>Не могу определиться</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td style="height:33vh"></td>
+                <td style="height:33vh"></td>
+                <td></td>
+            </tr>
+        </tbody>
+    </table>
+
+    @if (Feedbacks != null)
+        @foreach (Feedback feedback in Feedbacks)
+        {
+                    <p>@feedback.Vote @feedback.Moment <br/>
+                @feedback.AuthorId :  @feedback.Text</p>
+        }
+
+
+
+</div>

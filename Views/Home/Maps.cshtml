@@ -1,0 +1,82 @@
+﻿@{
+    ViewData["Title"] = "Maps Page";
+}
+<h1>Azure Maps</h1>
+    <!-- Add references to the Azure Maps Map control JavaScript and CSS files. -->
+    <link href="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.css" rel="stylesheet" />
+    <script src="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.js"></script>
+
+    <!-- Add a reference to the Azure Maps Services Module JavaScript file. -->
+    <script src="https://atlas.microsoft.com/sdk/javascript/service/2/atlas-service.min.js"></script>
+   
+    <div id="theMap" style="height:400px; width: 600px; border: 1px solid blue"></div>
+    <button onclick="setMapToUserLocation()">Где я?</button>
+    <script>
+        var map;
+        function getMap(){
+        map = new atlas.Map('theMap', {
+            center: [30.7, 46.45],
+            zoom: 8,
+            view: 'Auto',
+            authOptions:{
+                authType: 'subscriptionKey',
+                subscriptionKey:'dKXtwHnOrTbGL9Npwgz9RX0QRsQLL0LFl4U0WMQ3EKA'
+            }
+        });
+
+
+        map.events.add('ready', function(){
+            map.markers.add(new atlas.HtmlMarker({
+                color: 'Salmon',
+                text: 'City',
+                position: [30.6, 46.5]
+            }));
+             map.markers.add(new atlas.HtmlMarker({
+                color: 'Blue',
+                text: 'Sea',
+                position: [30.8, 46.3]
+            }));
+        });
+        map.controls.add(new atlas.control.ZoomControl(), {
+        position: 'top-right'
+        });
+        }
+        document.addEventListener('DOMContentLoaded', getMap);
+
+    function setMapToUserLocation() {
+        //Request the user's location.
+        navigator.geolocation.getCurrentPosition(function(position) {
+            //Convert the geolocation API position into a longitude/latitude position value the map can understand and center the map over it.
+            map.setCamera({
+                center: [position.coords.longitude, position.coords.latitude],
+                zoom: 9
+            });
+            if(SVGMarkerElement != 'Green'){
+            map.markers.add(new atlas.HtmlMarker({
+                    color: 'Green',
+                    text: 'Я',
+                    position: [position.coords.longitude, position.coords.latitude]
+
+                }));
+            }
+        }, function(error) {
+            //If an error occurs when trying to access the users position information, display an error message.
+            switch (error.code) {
+                case error.PERMISSION_DENIED:
+                    alert('User denied the request for geolocation.');
+                    break;
+                case error.POSITION_UNAVAILABLE:
+                    alert('Position information is unavailable.');
+                    break;
+                case error.TIMEOUT:
+                    alert('The request to get user position timed out.');
+                    break;
+                case error.UNKNOWN_ERROR:
+                    alert('An unknown error occurred.');
+                    break;
+            }
+        });
+    }
+
+
+</script>
